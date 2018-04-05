@@ -101,25 +101,21 @@
     function segment() {
         return new Promise((resolve,reject) => {
             //Create JSON Object for the segmentation request
-            var data = JSON.stringify({
-                "parameters": {},
-                "data": [
-                    {
-                        "inputImage": identifier
-                    }
-                ]
-            });
+            
+            //TODO
+            // - create the request body object
+            // - call the method on DIVAServices
+            // - fetch the result
+            
             //Execute the text page segmentation
-            fetch("http://divaservices.unifr.ch/api/v2/segmentation/ocropuspagesegmentation/1", {
-                method: "POST",
-                body: data,
-                headers: new Headers({ 'content-type': 'application/json' })
-            }).then(function (res) {
+            
+            
+            .then(function (res) {
                 return res.json();
             }).then(async function (data) {
                 //poll for the results
                 try{
-                var result = await getResult(data.results[0].resultLink);
+                    var result = await getResult(data.results[0].resultLink);
                 } catch(error){
                     console.log("Error!");
                     return reject(error);
@@ -127,6 +123,7 @@
                 
                 first = true;
                 //iterate over the output and create a new collection from all text lines
+                //also display the segmentation image on the website
                 for (var index = 0; index < result.output.length; index++) {
                     var element = result.output[index];
                     if (Object.keys(element)[0] === "file") {

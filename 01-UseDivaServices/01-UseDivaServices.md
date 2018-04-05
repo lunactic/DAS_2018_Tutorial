@@ -119,3 +119,22 @@ Locate the `binarize` method, and read its code. This method will perform the bi
   At the bottom of the method we re-upload the binary image to DIVAServices, a step currently necessary to make the binary image available for further processing.
   ## Task 3 - Make some changes
 
+  Your task is to complete the `segment()` method such that it will work properly.
+
+  Hints:
+   - The URL for the page segmentation is: http://divaservices.unifr.ch/api/v2/segmentation/ocropuspagesegmentation/1
+   - The method takes no parameters
+   - the `identifier` is already correctly set to be reused
+   - use a similar call structure for the method as in the binarization
+
+  ## Task 4 - Optional
+
+  As an additional task if you feel like it. Try to make us of another binarization method and try to compare results.
+
+  On DIVAServices there are at least two other methods available:
+   - Otsu Binarization at: http://divaservices.unifr.ch/api/v2/binarization/otsubinarization/1
+   - Sauvola Binarization at: http://divaservices.unifr.ch/api/v2/binarization/sauvolabinarization/1
+     - Sauvola Binarization takes two parameters:
+       - "radius": an integer number between 2 and 45 to define the radius of the local region
+       - "thres_tune": a number between 0.1 and 0.6 to tune the threshold
+    
