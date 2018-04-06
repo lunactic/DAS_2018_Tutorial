@@ -207,7 +207,7 @@ After performing the changes execute the script with: `./createMethod.sh`
 ## 7. Testing the method on DIVAServices
 You can use the script `executeOnDivaservices.py` to test your method on DIVAServices the script can be executed in the form of:
 
-`./executeOnDivaservices.sh URL_TO_METHOD FOLDER_TO_STORE_RESULT`, e.g. `./executeOnDivaservices.sh http://divaservices.unifr.ch/api/v2/binarization/otsubinarization/1 OtsuBinarization`
+`python executeOnDivaservices.py URL_TO_METHOD FOLDER_TO_STORE_RESULT`, e.g. `./executeOnDivaservices.sh http://divaservices.unifr.ch/api/v2/binarization/otsubinarization/1 OtsuBinarization`
 
 This will execute the official Otsu Binarization on DIVAServices and the resulting image will be stored in the `OtsuBinarization` folder as `otsuBinaryImage.png`.
 To test your method replace the URL with: `http://XXX.XXX.XXX.XXX/binarization/firstnameotsubinarization/1`. 
