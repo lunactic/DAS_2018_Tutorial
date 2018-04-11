@@ -17,10 +17,11 @@ The Process will involve the following steps:
 The steps performed in this Tutorial are applicable to other methods as well.
 
 # Pre-Requisites
+In order to run this tutorial you need to have an installation of the following tools:
 
-# Some words about Docker
-
-
+- docker (see: [Docker Installation](https://docs.docker.com/install/), for this purposes the Docker Community Edition is enough)
+- python
+- Java (>= java 8)
 # Procedure
 ## 1. Run the method locally
 In a first step we want to ensure, that the application we want to deploy is actually working locally.
@@ -70,7 +71,7 @@ For this Tutorial we will build the Image using a practice similar to Makefiles.
 
 ``` docker
 FROM openjdk:8
-MAINTAINER your.name@organisation.com
+LABEL maintainer="marcel.wuersch@unifr.ch"
 COPY OtsuBinarization/otsubinarization.jar /input/otsubinarization.jar
 COPY OtsuBinarization/script.sh /input/script.sh
 ```
