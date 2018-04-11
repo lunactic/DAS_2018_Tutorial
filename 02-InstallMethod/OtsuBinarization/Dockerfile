@@ -1,4 +1,4 @@
 FROM openjdk:8
-MAINTAINER marcel.wuersch@unifr.ch
+LABEL maintainer="marcel.wuersch@unifr.ch"
 COPY OtsuBinarization/otsubinarization.jar /input/otsubinarization.jar
 COPY OtsuBinarization/script.sh /input/script.sh

@@ -193,7 +193,19 @@ A method can be deployed with an HTTP POST request to the `/algorithms` route. T
 	}
 }
 ```
-You can use the provided `createMethod.sh` shell script, and adapt the JSON to create the method on DIVAServices. 
+
+The `general` part contains information about the nature of the method.
+
+The `input` array contains information about the parameters the method requires to run. They need to be in the order in which the method takes the parameter from the command line. Currently DIVAServices supports the following inputs:
+ - **file**: refers to a single input file
+ - **folder** refers to a folder that contains the data
+ - **text** refers to a string provided to the method
+ - **number** refers to a number provided to the method
+ - **select** refers to a string provided to the method, but the options are fix
+
+The JSON-Schema for the method creation is available [here](https://raw.githubusercontent.com/lunactic/DIVAServices/development/conf/schemas/createAlgorithmSchema.json)
+
+You can use the provided `createMethod.py` shell script, and adapt the JSON to create the method on DIVAServices. 
 You need to change the following values before running this script:
  - `general:name` set the name of the method in the form of "Firstname Otsu Binarization"
  - `general:developer` provide your name
@@ -202,12 +214,12 @@ You need to change the following values before running this script:
  - `general:email` provide your email address
  - `method:imageName` provide the name of your Docker Image as on Docker Hub
 
-After performing the changes execute the script with: `./createMethod.sh`
+After performing the changes execute the script with: `python createMethod.py`
 
 ## 7. Testing the method on DIVAServices
 You can use the script `executeOnDivaservices.py` to test your method on DIVAServices the script can be executed in the form of:
 
-`python executeOnDivaservices.py URL_TO_METHOD FOLDER_TO_STORE_RESULT`, e.g. `./executeOnDivaservices.sh http://divaservices.unifr.ch/api/v2/binarization/otsubinarization/1 OtsuBinarization`
+`python executeOnDivaservices.py URL_TO_METHOD FOLDER_TO_STORE_RESULT`, e.g. `python executeOnDivaservices.py http://divaservices.unifr.ch/api/v2/binarization/otsubinarization/1 OtsuBinarization`
 
 This will execute the official Otsu Binarization on DIVAServices and the resulting image will be stored in the `OtsuBinarization` folder as `otsuBinaryImage.png`.
 To test your method replace the URL with: `http://XXX.XXX.XXX.XXX/binarization/firstnameotsubinarization/1`. 

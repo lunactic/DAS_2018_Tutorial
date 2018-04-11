@@ -85,6 +85,7 @@ class ExecuteOnDivaServices:
         while(response['status'] != 'done'):
             if(response['status'] == 'error'):
                 sys.stderr.write('Error in executing the request. See the log file at: ' + response['output'][0]['file']['url'])
+                sys.exit()
             time.sleep(1)
             response = json.loads(requests.request("GET", result_link).text)
 
