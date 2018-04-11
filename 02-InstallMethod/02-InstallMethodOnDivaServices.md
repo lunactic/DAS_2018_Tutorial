@@ -22,6 +22,7 @@ In order to run this tutorial you need to have an installation of the following 
 - docker (see: [Docker Installation](https://docs.docker.com/install/), for this purposes the Docker Community Edition is enough)
 - python
 - Java (>= java 8)
+- An account on [Docker Hub](http://hub.docker.com), remember your username as we will need it later for tagging your Docker Image.
 # Procedure
 ## 1. Run the method locally
 In a first step we want to ensure, that the application we want to deploy is actually working locally.
@@ -71,9 +72,9 @@ For this Tutorial we will build the Image using a practice similar to Makefiles.
 
 ``` docker
 FROM openjdk:8
-LABEL maintainer="marcel.wuersch@unifr.ch"
-COPY OtsuBinarization/otsubinarization.jar /input/otsubinarization.jar
-COPY OtsuBinarization/script.sh /input/script.sh
+LABEL maintainer="your.name@email.com"
+COPY sources/otsubinarization.jar /input/otsubinarization.jar
+COPY sources/script.sh /input/script.sh
 ```
 
 This will do the following:
@@ -81,7 +82,7 @@ This will do the following:
 
 There are images available for almost any environments one might want to use and they can be search on the [Docker Store](https://store.docker.com)
 
-`MAINTAINER your.name@organisation.com` Provides information about who maintains this Docker Image. This should be your email address.
+`LABEL maintainer="your.name@email.com"` Provides information about who maintains this Docker Image. This should be your email address.
 
 `COPY <src> <dest>` Copies a local file into the Docker Image. This will make the files permanently available inside the image.
 
@@ -89,27 +90,26 @@ The complete reference on Dockerfiles is available [here](https://docs.docker.co
 
 We can now build the Docker Image using the command:
 
-`docker build -t my_name/das_2018_otsubinarization -f Dockerfile .`
+`docker build -t docker_hub_account_name/das_2018_otsubinarization -f Dockerfile .`
 
-[//]: # (TODO: Instruct in the Pre-Reqs to create a docker hub account and directly use the account reference here)
 This will instruct Docker to read the Docker file and execute all the commands.
 With `-t` we can provide a name for the Docker Image that is created and that can be used as reference later on.
 
 If this process runs fine you should fine a line like this at the bottom of your console:
 
-`Successfully tagged das_2018:latest`
+`Successfully tagged docker_hub_account_name/das_2018_otsubinarization:latest`
 
 ## 4. Test the Docker Image
 We can now test if the Docker Image is running as expected. For this we can execute the newly created image like this:
 
-`docker run -it --rm -v /FULL_PATH_TO/DAS_Workshop/02-InstallMethod/OtsuBinarization/example.png:/input/example.png -v /FULL_PATH_TO/DEV/DAS_Workshop/02-InstallMethod/OtsuBinarization/:/output/ my_name/das_2018_otsubinarization sh /input/script.sh /input/example.png /output/`
+`docker run -it --rm -v /FULL_PATH_TO/DAS_Workshop/02-InstallMethod/sources/example.png:/input/example.png -v /FULL_PATH_TO/DEV/DAS_Workshop/02-InstallMethod/sources/:/output/ docker_hub_account_name/das_2018_otsubinarization sh /input/script.sh /input/example.png /output/`
 
 This command is built from the following:
  - `docker run` Executes a command in a new container
  - `-it` runs the container in interactive mode and allocates a pseudo TTY (not important)
  - `--rm` removes the container from the system after the execution
  - `-v <src> <dst>` mounts a local file/folder from \<src\> (needs to be full path) into the container at \<dst\>. If \<dst\> does not exist it will be created automatically.
- - `my_name/das_2018_otsubinarization` reference to the image that should be used for running the command
+ - `docker_hub_account_name/das_2018_otsubinarization` reference to the image that should be used for running the command
  - `sh /input/script.sh /input/example.png /output/` The command that will be executed 
 
 If this result operates fine, you should find the `otsuBinaryImage.png` in the `<src>` folder provided to the `/output/` directory/.
@@ -117,7 +117,7 @@ If this result operates fine, you should find the `otsuBinaryImage.png` in the `
 ## 5. Upload image to Docker Hub
 The Docker Image can now be uloaded and made available to others with:
 
-`docker push my_name/das_2018_otsubinarization`
+`docker push docker_hub_account_name/das_2018_otsubinarization`
 
 This will upload the image into the official Docker repository, which is publicly available. 
 Discussions about hosting a closed DIVAServices repository are currently ongoing.
