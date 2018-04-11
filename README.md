@@ -2,14 +2,16 @@
 This github repository contains all documents, files, etc. necessary for the Tutorial on "Reproducible Research in Document Image Analysis" at the 13th Workshop On Document Analysis Systems (DAS) 2018 in Vienna.
 
 ## Presenters
-Marcel Würsch, Vinay Chandran Pondenkandath
+[Marcel Würsch](http://diuf.unifr.ch/main/diva/home/people/marcel-w%C3%BCrsch), [Vinay Chandran Pondenkandath](http://diuf.unifr.ch/main/diva/home/people/vinay-chandran-pondenkandath)
 
 # Introduction
 This tutorial is split into two parts: The first part deals with [DIVAServices](http://divaservices.unifr.ch) a RESTful Web Service framework for providing access to Document Image Analysis methods. And the second part with [DeepDIVA]() an Open Source Deep Learning Framework with a focus on reproducibility.
 
 ## Tutorial on DIVAServices
-The tutorial on DIVAServices itself is also split in two parts: The [first part](01-UseDivaServices/01-UseDivaServices.md) introduces how to use methods provided on DIVAServices, and the [second part]((02-InstallMethod/02-InstallMethodOnDivaServices.md)) explains how one can provide his/her own method on the platform.
+The tutorial on DIVAServices itself is also split in two parts: The [first part](01-UseDivaServices/01-UseDivaServices.md) introduces how to use methods provided on DIVAServices, and the [second part](02-InstallMethod/02-InstallMethodOnDivaServices.md) explains how one can provide his/her own method on the platform.
 
+The time allocated for both parts should allow you to complete both parts.
+But feel free to spend more time on either of the two tasks if you feel like it.
 ## Tutorial on DeepDIVA
 
 # Some Words about Docker

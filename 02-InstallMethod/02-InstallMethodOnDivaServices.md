@@ -132,66 +132,67 @@ A method can be deployed with an HTTP POST request to the `/algorithms` route. T
 
 ``` JSON
 {
-	"general": {
-		"name": "Firstname Otsu Binarization",
-		"description": "Otsu Binarization",
-		"developer": "YOUR NAME",
-		"affiliation": "YOUR AFFILIATION",
-		"email": "your.name@email.com",
-		"author": "YOUR NAME",
-		"DOI": "10.1109/TSMC.1979.4310076",
-		"type": "binarization",
-		"license": "Other",
-		"ownsCopyright": "1"
-	},
-	"input": [
-		{
-			"file": {
-				"name": "inputImage",
-				"description": "The input image to binarize",
-				"options": {
-					"required": true,
-					"mimeTypes": {
-						"allowed": [
-							"image/jpeg",
-							"image/png"
-						],
-						"default": "image/jpeg"
-					}
-				}
-			}
-		},
-		{
-			"outputFolder": {}
-		}
-	],
-	"output": [
-		{
-			"file": {
-				"name": "otsuBinaryImage",
-				"type": "image",
-				"description": "Generated Binary Image",
-				"options": {
-					"mimeTypes": {
-						"allowed": [
-							"image/jpeg",
-							"image/png"
-						],
-						"default": "image/jpeg"
-					},
-					"colorspace": "binary",
-					"visualization": true
-				}
-			}
-		}
-	],
-	"method": {
-		"imageType": "docker",
-		"imageName": "my_name/das_2018_otsubinarization",
-		"testData": "https://dl.getdropbox.com/s/l6mobixty0k2o3i/testData.zip",
-		"executableType": "bash",
-		"executable_path": "/input/script.sh"
-	}
+  "general": 
+  {
+    "name": "Firstname Otsu Binarization",
+    "description": "Otsu Binarization",
+    "developer": "YOUR NAME",
+    "affiliation": "YOUR AFFILIATION",
+    "email": "your.name@email.com",
+    "author": "YOUR NAME",
+    "DOI": "10.1109/TSMC.1979.4310076",
+    "type": "binarization",
+    "license": "Other",
+    "ownsCopyright": "1"
+  },
+  "input": [
+      {
+        "file": {
+            "name": "inputImage",
+            "description": "The input image to binarize",
+            "options": {
+                "required": true,
+                "mimeTypes": {
+                    "allowed": [
+                        "image/jpeg",
+                        "image/png"
+                    ],
+                    "default": "image/jpeg"
+                }
+            }
+        }
+      },
+      {
+        "outputFolder": {}
+      }
+    ],
+  "output": [
+    {
+      "file": {
+        "name": "otsuBinaryImage",
+          "type": "image",
+          "description": "Generated Binary Image",
+          "options": {
+            "mimeTypes": {
+            "allowed": [
+                            "image/jpeg",
+                            "image/png"
+                        ],
+                        "default": "image/jpeg"
+                    },
+                    "colorspace": "binary",
+                    "visualization": true
+                }
+            }
+        }
+    ],
+    "method": {
+        "imageType": "docker",
+        "imageName": "my_name/das_2018_otsubinarization",
+        "testData": "https://dl.getdropbox.com/s/l6mobixty0k2o3i/testData.zip",
+        "executableType": "bash",
+        "executable_path": "/input/script.sh"
+    }
 }
 ```
 
@@ -227,6 +228,5 @@ To test your method replace the URL with: `http://XXX.XXX.XXX.XXX/binarization/f
 
 If this results in the image stored in the output folder, Congratulations! You are now able to deploy a method on DIVAServices.
 
-
-# Your own method
+# Add your own method (optional)
 If you have time left or would like to try yourself, try to replicate the procedure above with one of your own methods.
