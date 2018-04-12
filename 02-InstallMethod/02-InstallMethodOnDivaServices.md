@@ -4,9 +4,10 @@
 For this Tutorial, the aim is to create a Docker Image that is able to perform Otsu Binarization and then use this image on DIVAServices.
 To simplify the process, we provide the jar-file for this method and we will also guide the process step by step.
 In the `solutions` folder you can also find solution files for each step.
+In the `sources` folder you can find the jar file and an example image to use.
 
 The Process will involve the following steps:
- - Run the method locally
+ - Test the method locally
  - Create a shell script that runs the method
  - Create the Docker Image for the method
  - Test the Docker Image
@@ -18,7 +19,6 @@ The steps performed in this Tutorial are applicable to other methods as well.
 
 # Pre-Requisites
 In order to run this tutorial you need to have an installation of the following tools:
-
 - docker (see: [Docker Installation](https://docs.docker.com/install/), for this purposes the Docker Community Edition is enough)
 - python
 - Java (>= java 8)
@@ -30,7 +30,7 @@ The application takes two parameters:
  - path to input image
  - path to output folder
 
-This means we can execute the application like this:
+This means we can execute the application like this (run when in the same folder as the jar file):
 ```
 java -jar otsubinarization.jar example.png ./
 ```
@@ -39,7 +39,7 @@ This will create a file name `otsuBinaryImage.png` in the same folder.
 ## 2. Create a shell script that runs the method
 As a next step we want to create a shell script that takes the necessary parameters as inputs and executes the method. We will use this shell script again within the Docker image.
 
-Create a file named `script.sh` with the following contents:
+Create a file named `script.sh` in the same folder as the jar file with the following contents:
 
 ``` bash
 inputImage=${1}
@@ -51,7 +51,7 @@ and make it executable using
 ``` bash
 chmod +x script.sh
 ```
-Now we can test the script with
+Now we can test the script with (run in the same folder as the jar file)
 ``` bash
 ./script.sh example.png ./
 ```
@@ -64,7 +64,7 @@ outputFolder=${2}
 
 java -jar /input/otsubinarization.jar ${inputImage} ${outputFolder}
 ```
-And remember we will have to put the JAR file to `/input/otsubinarization.jar`
+And remember we will have to put the jar file to `/input/otsubinarization.jar`
 
 
 ## 3. Create the Docker Image for the method

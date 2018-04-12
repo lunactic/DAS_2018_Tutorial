@@ -20,7 +20,7 @@ In order to do the first part of the tutorial you will need the following:
 - A modern browser (Firefox, Edge, Chrome)
 - A decent text editor (e.g. [Visual Studio Code](https://code.visualstudio.com/), [Sublime Text](https://www.sublimetext.com/), [Notepad++](https://notepad-plus-plus.org/))
 
-The time allocated for both parts should allow you to complete both parts.
+The allocated time for the tutorial should allow you to complete both parts.
 But feel free to spend more time on either of the two tasks if you feel like it.
 ## Tutorial on DeepDIVA
 
@@ -28,10 +28,25 @@ But feel free to spend more time on either of the two tasks if you feel like it.
 As you will see in this tutorial we make extensive use of the Docker platform.
 With Docker, you can "virtualize" your application similar to running it within a Virtual Machine, without the necessity of virtualizing the complete system.
 
-Docker calls each virtualized application a Container (see Figure below) and describes them as follows:
- > A container image is a lightweight, stand-alone, executable package of a piece of software that includes everything needed to run it: code, runtime, system tools, system libraries, settings. Available for both Linux and Windows based apps, containerized software will always run the same, regardless of the environment. Containers isolate software from its surroundings, for example differences between development and staging environments and help reduce conflicts between teams running different software on the same infrastructure. [(Source)](https://www.docker.com/what-container#/virtual_machines)
+Docker uses two main concepts: Images and Container and they are described as follow:
+>An **image** is an executable package that includes everything needed to run an application--the code, a runtime, libraries, environment variables, and configuration files.
+
+>A **container** is a runtime instance of an **image**--what the image becomes in memory when executed (that is, an image with state, or a user process). You can see a list of your running containers with the command, `docker ps`, just as you would in Linux.
+(source: [docs.docker.com](https://docs.docker.com/get-started/#docker-concepts))
+
+and additionally:
+> A container image is a lightweight, stand-alone, executable package of a piece of software that includes everything needed to run it: code, runtime, system tools, system libraries, settings. Available for both Linux and Windows based apps, containerized software will always run the same, regardless of the environment. Containers isolate software from its surroundings, for example differences between development and staging environments and help reduce conflicts between teams running different software on the same infrastructure. 
+(source: [docker.com](https://www.docker.com/what-container))
+
+The two following graphics visualize these concepts. The first one shows the Docker approach and the second shows the differences between Docker and traditional Virtual Machines.
 
 ![Docker Container](https://www.docker.com/sites/default/files/Package%20software.png)
+
+(source: [docker.com](https://www.docker.com/sites/default/files/Package%20software.png))
+
+![Docker vs Virtual Machines](https://insights.sei.cmu.edu/assets/content/VM-Diagram.png)
+
+(source: [sei.cmu.edu](https://insights.sei.cmu.edu/assets/content/VM-Diagram.png))
 
 We make use of Docker for various reasons.
 
