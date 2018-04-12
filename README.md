@@ -44,9 +44,10 @@ The two following graphics visualize these concepts. The first one shows the Doc
 
 (source: [docker.com](https://www.docker.com/sites/default/files/Package%20software.png))
 
-![Docker vs Virtual Machines](https://insights.sei.cmu.edu/assets/content/VM-Diagram.png)
-
-(source: [sei.cmu.edu](https://insights.sei.cmu.edu/assets/content/VM-Diagram.png))
+![Docker vs Virtual Machines1](https://www.docker.com/sites/default/files/Container%402x.png)
+![Docker vs Virtual Machines2](https://www.docker.com/sites/default/files/VM%402x.png)
+(source: [docker.com](https://www.docker.com/sites/default/files/Container%402x.png))
+(source: [docker.com](https://www.docker.com/sites/default/files/VM%402x.png))
 
 We make use of Docker for various reasons.
 
