@@ -10,6 +10,16 @@ This tutorial is split into two parts: The first part deals with [DIVAServices](
 ## Tutorial on DIVAServices
 The tutorial on DIVAServices itself is also split in two parts: The [first part](01-UseDivaServices/01-UseDivaServices.md) introduces how to use methods provided on DIVAServices, and the [second part](02-InstallMethod/02-InstallMethodOnDivaServices.md) explains how one can provide his/her own method on the platform.
 
+### Pre-Requisites
+In order to do the first part of the tutorial you will need the following:
+
+- docker (see: [Docker Installation](https://docs.docker.com/install/), for this purposes the Docker Community Edition is enough)
+- python
+- Java (>= java 8)
+- An account on [Docker Hub](http://hub.docker.com), remember your username as we will need it later for tagging your Docker Image.
+- A modern browser (Firefox, Edge, Chrome)
+- A decent text editor (e.g. [Visual Studio Code](https://code.visualstudio.com/), [Sublime Text](https://www.sublimetext.com/), [Notepad++](https://notepad-plus-plus.org/))
+
 The time allocated for both parts should allow you to complete both parts.
 But feel free to spend more time on either of the two tasks if you feel like it.
 ## Tutorial on DeepDIVA
