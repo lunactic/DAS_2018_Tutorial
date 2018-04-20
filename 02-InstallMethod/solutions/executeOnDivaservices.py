@@ -4,8 +4,7 @@ import time
 import sys
 import os
 import base64
-from urllib.parse import urlparse
-
+from urllib.parse import urlparse, urlsplit
 
 class ExecuteOnDivaServices:
 
@@ -17,19 +16,21 @@ class ExecuteOnDivaServices:
             sys.stderr.write('The method needs 3 parameters!')
             exit()
         url = sys.argv[1]
+        base_url = urlsplit(url).netloc
         input_image = sys.argv[2]
         output_folder = sys.argv[3]
 
         # Upload the Image to DIVAServices
-        image_identifier = self.uploadImage(input_image)
+        image_identifier = self.uploadImage(base_url,input_image)
         # Start the binarization process
         resultLink = self.runBinarization(url, image_identifier)
+        print("start polling for results at: " + resultLink)
         # Poll for the result
         result = self.pollResult(resultLink)
         # Download the result image
         self.saveFile(result['output'][0]['file']['url'],output_folder)
         
-    def uploadImage(self, input_image):
+    def uploadImage(self, base_url,input_image):
         """Uploads an image to DIVAServices
         
         Arguments:
@@ -39,7 +40,7 @@ class ExecuteOnDivaServices:
             string -- the DIVAServices identifier of the uploaded image
         """ 
 
-        url = "http://divaservices.unifr.ch/api/v2/collections"
+        url = "http://" + base_url + "/collections"
         with open(input_image, "rb") as image_file:
             encoded_string = base64.b64encode(image_file.read()).decode('ascii')
             file_name = os.path.basename(input_image)
@@ -83,6 +84,7 @@ class ExecuteOnDivaServices:
 
         response = json.loads(requests.request("GET", result_link).text)
         while(response['status'] != 'done'):
+            print("current status: " + response['status'])
             if(response['status'] == 'error'):
                 sys.stderr.write('Error in executing the request. See the log file at: ' + response['output'][0]['file']['url'])
                 sys.exit()

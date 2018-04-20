@@ -30,7 +30,7 @@ The application takes two parameters:
  - path to input image
  - path to output folder
 
-This means we can execute the application like this (run when in the same folder as the jar file):
+This means we can execute the application like this (run when in the `sources` directory in a terminal):
 ```
 java -jar otsubinarization.jar example.png ./
 ```
@@ -42,6 +42,7 @@ As a next step we want to create a shell script that takes the necessary paramet
 Create a file named `script.sh` in the same folder as the jar file with the following contents:
 
 ``` bash
+#!/bin/sh
 inputImage=${1}
 outputFolder=${2}
 
@@ -59,6 +60,7 @@ Which should generate the same `otsuBinaryImage.png` as before.
 
 To use this script inside the Docker Image we will have to use full paths to reference all files, so we change the content of this file to:
 ``` bash
+#!/bin/sh
 inputImage=${1}
 outputFolder=${2}
 
@@ -68,13 +70,13 @@ And remember we will have to put the jar file to `/input/otsubinarization.jar`
 
 
 ## 3. Create the Docker Image for the method
-For this Tutorial we will build the Image using a practice similar to Makefiles. For this, create a file with the name `Dockerfile` (no file extension) and add the following contents:
+For this Tutorial we will build the Image using a practice similar to Makefiles. For this, create a file with the name `Dockerfile` (no file extension) in the `sources` directory and add the following contents:
 
 ``` docker
 FROM openjdk:8
 LABEL maintainer="your.name@email.com"
-COPY sources/otsubinarization.jar /input/otsubinarization.jar
-COPY sources/script.sh /input/script.sh
+COPY otsubinarization.jar /input/otsubinarization.jar
+COPY script.sh /input/script.sh
 ```
 
 This will do the following:
@@ -124,11 +126,13 @@ Discussions about hosting a closed DIVAServices repository are currently ongoing
 
 ## 6. Create the POST request for putting the method on DIVAServices
 
-Now we have to install the method on DIVAServices. For the purpose of this Tutorial we will use a test installation.
+Now we can install the method on DIVAServices. For the purpose of this Tutorial we will install it on a test installation of DIVAServices.
+For live deployment there is also [DIVAServices-Management](http://divaservices.unifr.ch/managemtn), but we need to add support for Docker Image deployment to it.
 
-There is also a Web Application for performing this action but we need to add support for Docker Image deployment to it.
+A method is deployed by executing an HTTP POST request to the `/algorithms` route of DIVAServices.
+The deploy the Otsu Binarisation we need to attach a JSON request body that looks as follows:
 
-A method can be deployed with an HTTP POST request to the `/algorithms` route. The JSON request body for the Otsu Binarization method needs to look as follows:
+We provide a python script `solutions/createMethod.py` that can be adapted to execute this request.
 
 ``` JSON
 {
@@ -207,9 +211,17 @@ The `input` array contains information about the parameters the method requires 
 
 The JSON-Schema for the method creation is available [here](https://raw.githubusercontent.com/lunactic/DIVAServices/development/conf/schemas/createAlgorithmSchema.json)
 
-You can use the provided `createMethod.py` shell script, and adapt the JSON to create the method on DIVAServices. 
-You need to change the following values before running this script:
- - `general:name` set the name of the method in the form of "Firstname Otsu Binarization"
+Copy the python script into the `sources` directory:
+
+```bash
+
+cp solutions/createMethod.py sources/createMethod.py
+
+```
+In the copy change the following values of the JSON body (in the `payload` variable)
+
+
+ - `general:name` set the name of the method in the form of "YOURFIRSTNAME Otsu Binarization"
  - `general:developer` provide your name
  - `general:author` provide your name
  - `general:affiliation` provide your affiliation
@@ -219,8 +231,8 @@ You need to change the following values before running this script:
 After performing the changes execute the script with: `python createMethod.py`
 
 ## 7. Testing the method on DIVAServices
-You can use the script `executeOnDivaservices.py` to test your method on DIVAServices the script can be executed in the form of:
-
+You can use the script `executeOnDivaservices.py` in the `solutions` folder to test your method on DIVAServices.
+The script can be executed in the form of:
 `python executeOnDivaservices.py URL_TO_METHOD FOLDER_TO_STORE_RESULT`, e.g. `python executeOnDivaservices.py http://divaservices.unifr.ch/api/v2/binarization/otsubinarization/1 OtsuBinarization`
 
 This will execute the official Otsu Binarization on DIVAServices and the resulting image will be stored in the `OtsuBinarization` folder as `otsuBinaryImage.png`.

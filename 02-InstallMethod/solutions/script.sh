@@ -1,3 +1,4 @@
+#!/bin/sh
 inputImage=${1}
 outputFolder=${2}
 

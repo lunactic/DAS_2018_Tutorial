@@ -3,7 +3,7 @@ import json
 import sys
 import time
 
-url = "http://localhost:8080/algorithms"
+url = "http://134.21.131.72:8080/algorithms"
 
 
 # The request body for creating the method on DIVAServices
@@ -14,12 +14,12 @@ url = "http://localhost:8080/algorithms"
 #   - which Docker Image to use and what script to execute
 payload = "{\
             \"general\": \
-                {   \"name\": \"YOURNAME Otsu Binarization\",\
+                {   \"name\": \"Marcel Otsu Binarization\",\
                     \"description\": \"Otsu Binarization\",\
-                    \"developer\": \"YOUR NAME\",\
-                    \"affiliation\": \"YOUR AFFILIATION\",\
-                    \"email\": \"your.name@email.com\",\
-                    \"author\": \"YOUR NAME\",\
+                    \"developer\": \"Marcel Wuersch\",\
+                    \"affiliation\": \"University of Fribourg\",\
+                    \"email\": \"marcel.wuersch@unifr.ch\",\
+                    \"author\": \"Marcel Wuersch\",\
                     \"type\": \"binarization\",\
                     \"license\": \"Other\",\
                     \"ownsCopyright\": \"1\"\
@@ -56,7 +56,7 @@ payload = "{\
                 ],\
             \"method\": {\
                 \"imageType\": \"docker\",\
-                \"imageName\": \"YOURNAME/YOURIMAGENAME\",\
+                \"imageName\": \"divaservices/das_2018_otsubinarization\",\
                 \"testData\": \"https://dl.getdropbox.com/s/l6mobixty0k2o3i/testData.zip\",\
                 \"executableType\": \"bash\",\
                 \"executable_path\": \"/input/script.sh\"\
@@ -70,7 +70,7 @@ response = requests.request("POST", url, data=payload, headers=headers)
 response = json.loads(response.text)
 
 identifier = response['identifier']
-status_link = "http://localhost:8080/algorithms/" + identifier
+status_link = "http://134.21.131.72:8080/algorithms/" + identifier
 print(response)
 # check the current status of the installation
 status_response = json.loads(requests.request("GET", status_link).text)
