@@ -3,9 +3,16 @@ import json
 import sys
 import time
 
-url = "http://134.21.131.72:8080/algorithms"
-
-
+"""This script creates a method on DIVAServices. The script can be executed as follows:
+            python createMethod.py URL_TO_DIVASERVICES (e.g. ptyhon createMethod.py http://divaservices.unifr.ch/api/v2)
+"""
+        
+if(len(sys.argv) < 2):
+    sys.stderr.write('The method needs 3 parameters!')
+    exit()
+        
+url = sys.argv[1] + "/algorithms"
+        
 # The request body for creating the method on DIVAServices
 # This contains all required information about:
 #   - general information about the method
@@ -70,7 +77,7 @@ response = requests.request("POST", url, data=payload, headers=headers)
 response = json.loads(response.text)
 
 identifier = response['identifier']
-status_link = "http://134.21.131.72:8080/algorithms/" + identifier
+status_link = sys.argv[1] +  + "/algorithms/" + identifier
 print(response)
 # check the current status of the installation
 status_response = json.loads(requests.request("GET", status_link).text)
