@@ -77,7 +77,7 @@ response = requests.request("POST", url, data=payload, headers=headers)
 response = json.loads(response.text)
 
 identifier = response['identifier']
-status_link = sys.argv[1] +  + "/algorithms/" + identifier
+status_link = sys.argv[1]  + "/algorithms/" + identifier
 print(response)
 # check the current status of the installation
 status_response = json.loads(requests.request("GET", status_link).text)
