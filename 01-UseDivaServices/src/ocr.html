@@ -109,7 +109,11 @@
             //Execute the text page segmentation
             
             
-            .then(function (res) {
+            fetch("http://divaservices.unifr.ch/api/v2/segmentation/ocropuspagesegmentation/1", {
+                method: "POST",
+                body: data,
+                headers: new Headers({ 'content-type': 'application/json' })
+            }).then(function (res) {
                 return res.json();
             }).then(async function (data) {
                 //poll for the results
