@@ -74,13 +74,12 @@
                         {
                             "type": "url",
                             "value": result.output[0].file.url,
-                            "name": result.output[0].file.name.split(".")[0],
-                            "extension": "bin.png"
+                            "name": result.output[0].file.name
                         }
                     ]
                 });
                 //create the new identifier for the uploaded image
-                identifier = collection + "/" + result.output[0].file.name.split(".")[0] + ".bin.png"
+                identifier = collection + "/" + result.output[0].file.name
                 //add the image to the existing collection using a PUT request
                 fetch("http://divaservices.unifr.ch/api/v2/collections/" + collection, {
                     method: "PUT",
@@ -282,8 +281,7 @@
                 {
                     "type": "url",
                     "value": element.file.url,
-                    "name": element.file.name.split(".")[0],
-                    "extension": "bin.png"
+                    "name": element.file.name
                 }
             ]
         });
@@ -307,8 +305,7 @@
                 {
                     "type": "url",
                     "value": element.file.url,
-                    "name": element.file.name.split(".")[0],
-                    "extension": "bin.png"
+                    "name": element.file.name
                 }
             ]
         });
@@ -334,8 +331,7 @@
                 {
                     "type": "base64",
                     "value": currentImage,
-                    "name": currentFile.name.split('.')[0],
-                    "extension": currentFile.name.split('.')[1]
+                    "name": currentFile.name
                 }
             ]
         });
