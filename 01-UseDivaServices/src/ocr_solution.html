@@ -21,12 +21,12 @@
     async function recognize() {
         document.getElementById("spinner").style.visibility = 'visible';
         try {
-        await binarize();
-        await segment();
-        await recognizeText();
-        } catch(error) {
+            await binarize();
+            await segment();
+            await recognizeText();
+        } catch (error) {
             console.log(error);
-            document.getElementById("errors").innerHTML = "Error: Find more information in the logfile at: <a href='" + error.output[0].file.url + "'> ERROR LOGFILE</a>";    
+            document.getElementById("errors").innerHTML = "Error: Find more information in the logfile at: <a href='" + error.output[0].file.url + "'> ERROR LOGFILE</a>";
         }
         document.getElementById("spinner").style.visibility = 'hidden';
     }
@@ -35,14 +35,14 @@
     * Binarize the original input image and store the result on DIVAServices
     */
     function binarize() {
-        return new Promise((resolve,reject) => {
+        return new Promise((resolve, reject) => {
             //JSON Object for the request
             //identifier is set automatically by uploadImage() that is triggered on the image selection
             var data = JSON.stringify({
                 "parameters": {
-                    "enableSkew":true,
-                    "maxskew":2.0,
-                    "skewsteps":8.0
+                    "enableSkew": true,
+                    "maxskew": 2.0,
+                    "skewsteps": 8.0
                 },
                 "data": [
                     {
@@ -59,37 +59,20 @@
                 return res.json();
             }).then(async function (data) {
                 //Poll for the result
-                try{
+                try {
                     var result = await getResult(data.results[0].resultLink);
-                }catch(error){
+                } catch (error) {
                     return reject(error);
                 }
                 //Display the binarization image
                 document.getElementById("bin_image").src = result.output[0].file.url;
                 document.getElementById("bin_result").style.visibility = 'visible';
-
+                var resultCollection = data.resultCollection
+                console.log(resultCollection)
                 //JSON Object for the upload request for the result image
-                var data = JSON.stringify({
-                    "files": [
-                        {
-                            "type": "url",
-                            "value": result.output[0].file.url,
-                            "name": result.output[0].file.name + '.bin.png',
-                        }
-                    ]
-                });
                 //create the new identifier for the uploaded image
-                identifier = collection + "/" + result.output[0].file.name + '.bin.png'
-                //add the image to the existing collection using a PUT request
-                fetch("http://divaservices.unifr.ch/api/v2/collections/" + collection, {
-                    method: "PUT",
-                    body: data,
-                    headers: new Headers({ 'content-type': 'application/json' })
-                }).then(function (res) {
-                    return res.json();
-                }).then(async function (data) {
-                    resolve();
-                });
+                identifier = resultCollection + "/" + result.output[0].file.options.filename
+                resolve();
             });
         });
     }
@@ -98,7 +81,7 @@
     * Segment the binarized image into individual textlines
     */
     function segment() {
-        return new Promise((resolve,reject) => {
+        return new Promise((resolve, reject) => {
             //Create JSON Object for the segmentation request
             var data = JSON.stringify({
                 "parameters": {},
@@ -117,27 +100,20 @@
                 return res.json();
             }).then(async function (data) {
                 //poll for the results
-                try{
-                var result = await getResult(data.results[0].resultLink);
-                } catch(error){
+                try {
+                    var result = await getResult(data.results[0].resultLink);
+                } catch (error) {
                     console.log("Error!");
                     return reject(error);
                 }
-                
-                first = true;
-                //iterate over the output and create a new collection from all text lines
+                var resulCollectionLink = data.resultCollectionLink;
+                collection = data.resultCollection
+                //iterate over the output to find the visualization image
                 for (var index = 0; index < result.output.length; index++) {
                     var element = result.output[index];
                     if (Object.keys(element)[0] === "file") {
                         //only include images but not the full page segmentation image
-                        if (element.file["mime-type"].includes("image/png") && !(element.file.name.includes("segmentationImage"))) {
-                            if (first) {
-                                first = false;
-                                await uploadImageUrl(element)
-                            } else {
-                                await addImageUrl(element);
-                            }
-                        } else if(element.file["mime-type"].includes("image/png") && element.file.name.includes("segmentationImage")){
+                        if (element.file["mime-type"].includes("image/png") && element.file.name.includes("segmentationImage")) {
                             //Display the segmentation image
                             document.getElementById("seg_image").src = element.file.url;
                             document.getElementById("seg_result").style.visibility = 'visible';
@@ -153,7 +129,7 @@
     * recognize the text of all text lines
     */
     function recognizeText() {
-        return new Promise((resolve,reject) => {
+        return new Promise((resolve, reject) => {
             //JSON object for the recognition request
             var data = JSON.stringify({
                 "parameters": {},
@@ -173,9 +149,9 @@
                 return res.json();
             }).then(async function (data) {
                 //poll for the result
-                try{
+                try {
                     var result = await getResult(data.results[0].resultLink);
-                } catch(error){
+                } catch (error) {
                     return reject(error);
                 }
                 var text = "";
@@ -199,7 +175,7 @@
     * Get the transcription of a single text line
     */
     function getText(element) {
-        return new Promise((resolve,reject) => {
+        return new Promise((resolve, reject) => {
             fetch(element.file.url, {
                 method: "GET"
             }).then(async function (res) {
@@ -216,7 +192,7 @@
      *  
      * */
     function getResult(url) {
-        return new Promise((resolve,reject) => {
+        return new Promise((resolve, reject) => {
             fetch(url, {
                 method: "GET"
             }).then(function (res) {
@@ -224,7 +200,7 @@
             }).then(function (data) {
                 if (data.status === "done") {
                     resolve(data);
-                }else if(data.status === "error"){
+                } else if (data.status === "error") {
                     return reject(data);
                 } else {
                     setTimeout(function () {
@@ -241,7 +217,7 @@
      * 
      * */
     function getUploadResult(collectionName) {
-        return new Promise((resolve,reject) => {
+        return new Promise((resolve, reject) => {
             fetch('http://divaservices.unifr.ch/api/v2/collections/' + collectionName, {
                 method: "GET"
             }).then(function (res) {
@@ -288,7 +264,7 @@
                 }
             ]
         });
-        return new Promise((resolve,reject) => {
+        return new Promise((resolve, reject) => {
             fetch("http://divaservices.unifr.ch/api/v2/collections", {
                 method: "POST",
                 body: tmpData,
@@ -312,7 +288,7 @@
                 }
             ]
         });
-        return new Promise((resolve,reject) => {
+        return new Promise((resolve, reject) => {
             fetch("http://divaservices.unifr.ch/api/v2/collections/" + collection, {
                 method: "PUT",
                 body: tmpData,
@@ -359,9 +335,11 @@
             <h1>OCR Recognition Experimentation</h1>
             <p>
                 <h3>Upload</h3>
-                <div>Make sure that the image is larger than 600x600 pixels. Otheriwse OCROpus will complain that it's too small.</div>
+                <div>Make sure that the image is larger than 600x600 pixels. Otheriwse OCROpus will complain that it's
+                    too small.</div>
                 <label class="btn btn-primary" for="my-file-selector">
-                    <input id="my-file-selector" type="file" style="display:none" onchange="$('#upload-file-info').html(this.files[0].name);encodeImageFileAsURL(this);"> Choose File...
+                    <input id="my-file-selector" type="file" style="display:none" onchange="$('#upload-file-info').html(this.files[0].name);encodeImageFileAsURL(this);">
+                    Choose File...
                 </label>
                 <span class='label label-info' id="upload-file-info"></span>
             </p>
@@ -391,7 +369,7 @@
         <div class="row">
             <div class="col-md-auto">
                 <h2>Binarization Result</h2>
-                <div id='bin_result'  style="visibility: hidden">
+                <div id='bin_result' style="visibility: hidden">
                     <img id='bin_image'>
                 </div>
             </div>
@@ -399,7 +377,7 @@
         <div class="row">
             <div class="col-md-auto">
                 <h2>Segmentation Result</h2>
-                <div id='seg_result'  style="visibility: hidden">
+                <div id='seg_result' style="visibility: hidden">
                     <img id='seg_image'>
                 </div>
             </div>
